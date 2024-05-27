@@ -12,7 +12,7 @@ GPTCommit 是一个自动化的 Git 提交工具。它使用 OpenAI 的 GPT-4 �
 
 1. 克隆本仓库到你的本地机器：
     ```bash
-    git clone https://github.com/yourusername/GPTCommit.git
+    git clone https://github.com/zhufengme/GPTCommit
     ```
 
 2. 进入项目目录：
