@@ -2,6 +2,14 @@
 
 # 设置你的 OpenAI API 密钥
 OPENAI_API_KEY="your_openai_api_key_here"
+# 设置你的 Proxy，默认使用HTTPS_PROXY环境变量
+CURL_PROXY=""
+
+if "x$CURL_PROXY" = "x" ; then
+    CURL_PROXY_OPT=""
+else
+    CURL_PROXY_OPT=$(--proxy "$CURL_PROXY")
+fi
 
 # 检查工作目录状态
 echo "检查工作目录状态..."
@@ -33,7 +41,7 @@ generate_commit_message() {
         ],
         max_tokens: 100,
         temperature: 0.7
-    }' | curl -s https://api.openai.com/v1/chat/completions \
+    }' | curl $CURL_PROXY_OPT --connect-timeout 5 -s https://api.openai.com/v1/chat/completions \
     -H "Content-Type: application/json" \
     -H "Authorization: Bearer $OPENAI_API_KEY" \
     -d @-)
