@@ -5,10 +5,10 @@ OPENAI_API_KEY="your_openai_api_key_here"
 # 设置你的 Proxy，默认使用HTTPS_PROXY环境变量
 CURL_PROXY=""
 
-if "x$CURL_PROXY" = "x" ; then
+if [ "x$CURL_PROXY" = "x" ] ; then
     CURL_PROXY_OPT=""
 else
-    CURL_PROXY_OPT=$(--proxy "$CURL_PROXY")
+    CURL_PROXY_OPT="--proxy ${CURL_PROXY}"
 fi
 
 # 检查工作目录状态
