@@ -39,6 +39,11 @@ GPTCommit 是一个自动化的 Git 提交工具。它使用 OpenAI 的 GPT-4 �
     OPENAI_API_KEY="your_openai_api_key_here"
     ```
 
+3. [可选] 在以下行中的双引号中设置你要使用的proxy设置，留空则遵循 curl 的默认行为（使用HTTPS_PROXY环境变量或.curlrc中设置）
+    ```bash
+    CURL_PROXY=""
+    ```
+
 ## 使用
 
 1. 确保你的 Git 工作目录中有未提交的更改。
