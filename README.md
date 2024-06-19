@@ -2,13 +2,13 @@
 
 [中文版](README_zh.md)
 
-GPTCommit is an automated Git commit tool. It uses OpenAI's GPT-4o model to analyze code changes and generate commit messages, simplifying the code commit process.
+GPTCommit is an automated Git commit tool. It leverages OpenAI's GPT-4o model to analyze code changes and generate commit messages, simplifying the code submission process.
 
-## Main Features
+## Key Features
 
 - Automatically detects uncommitted changes
-- Uses GPT-4o model to generate commit messages
-- Automatically performs `git add .` and `git commit -m {message}`
+- Generates commit messages using the GPT-4o model
+- Automatically executes `git add .` and `git commit -m {message}`
 
 ## Installation
 
@@ -22,26 +22,26 @@ GPTCommit is an automated Git commit tool. It uses OpenAI's GPT-4o model to anal
     cd GPTCommit
     ```
 
-3. Ensure you have `jq` installed to process JSON data. If not installed, you can use the following command to install it:
+3. Ensure you have `jq` installed to handle JSON data. If not, you can install it using the following command:
     ```bash
     sudo apt-get install jq
     ```
 
 ## Configuration
 
-Before running the script, you need to perform some configuration.
+Before running the script, you need to configure a few things.
 
 1. Open the `gptcommit.sh` file:
     ```bash
     nano gptcommit.sh
     ```
 
-2. Replace `your_openai_api_key_here` with your OpenAI API key in the following line:
+2. Replace `your_openai_api_key_here` in the following line with your OpenAI API key:
     ```bash
     OPENAI_API_KEY="your_openai_api_key_here"
     ```
 
-3. [Optional] Set the proxy you want to use, leave empty to follow curl's default behavior (using the HTTPS_PROXY environment variable or settings in .curlrc):
+3. [Optional] Set the proxy you want to use. Leave it empty to follow curl's default behavior (using the HTTPS_PROXY environment variable or settings in .curlrc):
     ```bash
     CURL_PROXY=""
     ```
@@ -50,7 +50,13 @@ Before running the script, you need to perform some configuration.
     ```bash
     OPENAI_API_ENDPOINT="https://api.openai.com/v1/chat/completions"
     ```
-    You can change this to a different API endpoint as needed.
+    You can change it to a different API endpoint as needed.
+
+5. [Optional] The default commit message is generated in English. You can edit the following line to change the default language:
+    ```bash
+    LANGUAGES="en"
+    ```
+    You can change it to a different language, such as `zh` for Chinese.
 
 ## Usage
 
@@ -63,15 +69,29 @@ Before running the script, you need to perform some configuration.
 
 3. The script will automatically perform the following steps:
     - Check the working directory status
-    - Get the uncommitted changes
-    - Call OpenAI's API to generate commit messages
-    - Add changes to the staging area and commit them
+    - Retrieve uncommitted changes
+    - Call OpenAI's API to generate a commit message
+    - Add changes to the staging area and commit
+
+## Optional Command Line Parameters
+
+An optional command line parameter `--lang` is provided to temporarily specify the language of the generated commit message. For example:
+
+```bash
+./gptcommit.sh --lang=zh
+```
+This command generates the commit message in Chinese.
+
+```bash
+./gptcommit.sh --lang=zh,en
+```
+This command generates the commit message in both Chinese and English.
 
 ## Adding the Script to PATH
 
-To conveniently use the script in any directory, you can add it to your system's PATH:
+To conveniently use the script from any directory, you can add it to the system PATH:
 
-1. Copy the script to a directory in PATH, such as `/usr/local/bin`:
+1. Copy the script to a directory in your PATH, such as `/usr/local/bin`:
     ```bash
     sudo cp gptcommit.sh /usr/local/bin/gptcommit
     sudo chmod +x /usr/local/bin/gptcommit
@@ -85,8 +105,8 @@ To conveniently use the script in any directory, you can add it to your system's
 ## Notes
 
 - Ensure your OpenAI API key has sufficient quota to handle requests.
-- The script assumes you are working within a current Git repository and have the appropriate permissions to perform commit operations.
-- Make sure your network connection is stable, especially if you need to access the OpenAI API through a proxy.
+- The script assumes you are working within a current Git repository and have appropriate permissions to perform commit operations.
+- Ensure your network connection is stable, especially if you need to access the OpenAI API via a proxy.
 
 ## Contributing
 
@@ -95,4 +115,3 @@ Issues and feature requests are welcome! If you want to contribute code, please 
 ## License
 
 This project is licensed under the GPL.
-

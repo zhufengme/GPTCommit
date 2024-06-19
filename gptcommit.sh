@@ -13,6 +13,18 @@ else
     CURL_PROXY_OPT="--proxy ${CURL_PROXY}"
 fi
 
+# Default language for commit message
+LANGUAGES="en"
+
+# Parse command-line arguments
+while [[ "$#" -gt 0 ]]; do
+    case $1 in
+        --lang=*) LANGUAGES="${1#*=}";;
+        *) echo "Unknown parameter passed: $1"; exit 1;;
+    esac
+    shift
+done
+
 # Check the status of the working directory
 echo "Checking the status of the working directory..."
 git status
@@ -33,12 +45,13 @@ fi
 
 # Call OpenAI's API to generate a commit message
 generate_commit_message() {
-    RESPONSE=$(jq -n --arg diff "$DIFF" '{
+    local LANGUAGES=$1
+    RESPONSE=$(jq -n --arg diff "$DIFF" --arg lang "$LANGUAGES" '{
         model: "gpt-4o",
         messages: [
             {
                 role: "user",
-                content: "Analyze the following code changes and generate a concise Git commit message, providing it in both Chinese and English text only: \n\n\($diff)\n\n"
+                content: "Analyze the following code changes and generate a concise Git commit message, providing it in the following languages: \($lang). Text only: \n\n\($diff)\n\n"
             }
         ],
         max_tokens: 500,
@@ -62,7 +75,7 @@ generate_commit_message() {
 }
 
 # Get the generated commit message
-COMMIT_MESSAGE=$(generate_commit_message)
+COMMIT_MESSAGE=$(generate_commit_message "$LANGUAGES")
 
 # If no commit message is generated, exit
 if [ -z "$COMMIT_MESSAGE" ]; then
