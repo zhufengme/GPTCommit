@@ -1,10 +1,10 @@
 #!/bin/bash
 
-# 设置你的 OpenAI API 密钥
+# Set your OpenAI API key
 OPENAI_API_KEY="your_openai_api_key_here"
-# 设置你的 OpenAI API endpoint
+# Set your OpenAI API endpoint
 OPENAI_API_ENDPOINT="https://api.openai.com/v1/chat/completions"
-# 设置你的 Proxy，默认使用HTTPS_PROXY环境变量
+# Set your Proxy, default using HTTPS_PROXY environment variable
 CURL_PROXY=""
 
 if [ "x$CURL_PROXY" = "x" ] ; then
@@ -13,25 +13,25 @@ else
     CURL_PROXY_OPT="--proxy ${CURL_PROXY}"
 fi
 
-# 检查工作目录状态
-echo "检查工作目录状态..."
+# Check the status of the working directory
+echo "Checking the status of the working directory..."
 git status
 
-# 获取工作目录和暂存区之间的差异
+# Get the difference between the working directory and the staging area
 WORKING_DIFF=$(git diff)
-# 获取暂存区和HEAD之间的差异
+# Get the difference between the staging area and HEAD
 STAGED_DIFF=$(git diff --cached)
 
-# 合并差异
+# Combine the differences
 DIFF="${WORKING_DIFF}${STAGED_DIFF}"
 
-# 如果没有差异，退出
+# If there are no differences, exit
 if [ -z "$DIFF" ]; then
-    echo "没有发现差异。"
+    echo "No differences found."
     exit 0
 fi
 
-# 调用 OpenAI 的 API 来生成提交注释
+# Call OpenAI's API to generate a commit message
 generate_commit_message() {
     RESPONSE=$(jq -n --arg diff "$DIFF" '{
         model: "gpt-4o",
@@ -48,24 +48,34 @@ generate_commit_message() {
     -H "Authorization: Bearer $OPENAI_API_KEY" \
     -d @-)
 
+    if [ $? -ne 0 ]; then
+        echo "Error: OpenAI API call failed due to network error."
+        exit 1
+    fi
+
+    if [ -z "$RESPONSE" ] || [ "$(echo "$RESPONSE" | jq -r '.error')" != "null" ]; then
+        echo "Error: OpenAI API returned an error."
+        exit 1
+    fi
+
     echo "$RESPONSE" | jq -r '.choices[0].message.content' | sed 's/^"\(.*\)"$/\1/'
 }
 
-# 获取生成的提交注释
+# Get the generated commit message
 COMMIT_MESSAGE=$(generate_commit_message)
 
-# 如果没有生成注释，退出
+# If no commit message is generated, exit
 if [ -z "$COMMIT_MESSAGE" ]; then
-    echo "无法生成提交注释。"
+    echo "Unable to generate commit message."
     exit 1
 fi
 
-# 添加更改到暂存区
+# Add changes to the staging area
 git add .
 
-# 提交更改
+# Commit the changes
 git commit -m "$COMMIT_MESSAGE"
 
-echo "提交完成，注释为: "
+echo "Commit complete with message: "
 echo " "
 echo "$COMMIT_MESSAGE"
