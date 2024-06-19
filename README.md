@@ -1,95 +1,98 @@
-# GPTCommit - 使用 GPT 自动生成 Git 提交注释的脚本
+# GPTCommit - A Script to Automatically Generate Git Commit Messages Using GPT
 
-GPTCommit 是一个自动化的 Git 提交工具。它使用 OpenAI 的 GPT-4o 模型分析代码更改并生成提交注释，从而简化了代码提交过程。
+[中文版](README_zh.md)
 
-## 主要功能
+GPTCommit is an automated Git commit tool. It uses OpenAI's GPT-4o model to analyze code changes and generate commit messages, simplifying the code commit process.
 
-- 自动检测未提交的更改
-- 使用 GPT-4o 模型生成提交注释
-- 自动执行 `git add .` 和 `git commit -m {注释}`
+## Main Features
 
-## 安装
+- Automatically detects uncommitted changes
+- Uses GPT-4o model to generate commit messages
+- Automatically performs `git add .` and `git commit -m {message}`
 
-1. 克隆本仓库到你的本地机器：
+## Installation
+
+1. Clone this repository to your local machine:
     ```bash
     git clone https://github.com/zhufengme/GPTCommit
     ```
 
-2. 进入项目目录：
+2. Navigate to the project directory:
     ```bash
     cd GPTCommit
     ```
 
-3. 确保你已安装 `jq`，用于处理 JSON 数据。如果没有安装，可以使用以下命令安装：
+3. Ensure you have `jq` installed to process JSON data. If not installed, you can use the following command to install it:
     ```bash
     sudo apt-get install jq
     ```
 
-## 配置
+## Configuration
 
-在运行脚本之前，你需要进行一些配置。
+Before running the script, you need to perform some configuration.
 
-1. 打开 `gptcommit.sh` 文件：
+1. Open the `gptcommit.sh` file:
     ```bash
     nano gptcommit.sh
     ```
 
-2. 将以下行中的 `your_openai_api_key_here` 替换为你的 OpenAI API 密钥：
+2. Replace `your_openai_api_key_here` with your OpenAI API key in the following line:
     ```bash
     OPENAI_API_KEY="your_openai_api_key_here"
     ```
 
-3. [可选] 设置你要使用的代理（proxy），留空则遵循 curl 的默认行为（使用 HTTPS_PROXY 环境变量或 .curlrc 中的设置）：
+3. [Optional] Set the proxy you want to use, leave empty to follow curl's default behavior (using the HTTPS_PROXY environment variable or settings in .curlrc):
     ```bash
     CURL_PROXY=""
     ```
 
-4. [可选] 如果需要修改 OpenAI API endpoint，可以编辑以下行：
+4. [Optional] If you need to modify the OpenAI API endpoint, you can edit the following line:
     ```bash
     OPENAI_API_ENDPOINT="https://api.openai.com/v1/chat/completions"
     ```
-    你可以根据需要将其更改为不同的 API endpoint。
+    You can change this to a different API endpoint as needed.
 
-## 使用
+## Usage
 
-1. 确保你的 Git 工作目录中有未提交的更改。
+1. Ensure there are uncommitted changes in your Git working directory.
 
-2. 运行脚本：
+2. Run the script:
     ```bash
     ./gptcommit.sh
     ```
 
-3. 脚本将自动执行以下步骤：
-    - 检查工作目录状态
-    - 获取未提交的更改
-    - 调用 OpenAI 的 API 生成提交注释
-    - 添加更改到暂存区并提交
+3. The script will automatically perform the following steps:
+    - Check the working directory status
+    - Get the uncommitted changes
+    - Call OpenAI's API to generate commit messages
+    - Add changes to the staging area and commit them
 
-## 将脚本添加到 PATH
+## Adding the Script to PATH
 
-为了在任何目录中都能方便地使用该脚本，你可以将脚本添加到系统的 PATH 路径中：
+To conveniently use the script in any directory, you can add it to your system's PATH:
 
-1. 将脚本复制到一个在 PATH 中的目录，例如 `/usr/local/bin`：
+1. Copy the script to a directory in PATH, such as `/usr/local/bin`:
     ```bash
     sudo cp gptcommit.sh /usr/local/bin/gptcommit
     sudo chmod +x /usr/local/bin/gptcommit
     ```
 
-2. 现在你可以在任何 Git 仓库目录中通过运行以下命令来使用脚本：
+2. Now you can use the script in any Git repository directory by running:
     ```bash
     gptcommit
     ```
 
-## 注意事项
+## Notes
 
-- 确保你的 OpenAI API 密钥具有足够的配额来处理请求。
-- 该脚本假设你已经在当前 Git 仓库中工作，并且有合适的权限执行提交操作。
-- 请确保你的网络连接稳定，特别是在需要通过代理访问 OpenAI API 的情况下。
+- Ensure your OpenAI API key has sufficient quota to handle requests.
+- The script assumes you are working within a current Git repository and have the appropriate permissions to perform commit operations.
+- Make sure your network connection is stable, especially if you need to access the OpenAI API through a proxy.
 
-## 贡献
+## Contributing
 
-欢迎提交问题和功能请求！如果你想贡献代码，请 fork 本仓库并提交 pull request。
+Issues and feature requests are welcome! If you want to contribute code, please fork this repository and submit a pull request.
 
-## 许可
+## License
 
-本项目遵循 GPL 许可。
+This project is licensed under the GPL.
+
