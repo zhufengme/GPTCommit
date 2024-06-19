@@ -38,10 +38,10 @@ generate_commit_message() {
         messages: [
             {
                 role: "user",
-                content: "分析以下代码更改并生成一个简洁的提交注释，请用中英双语提供，只给出文本文字：\n\n\($diff)\n\nCommit message:"
+                content: "Analyze the following code changes and generate a concise Git commit message, providing it in both Chinese and English text only: \n\n\($diff)\n\n"
             }
         ],
-        max_tokens: 100,
+        max_tokens: 500,
         temperature: 0.7
     }' | curl $CURL_PROXY_OPT --connect-timeout 5 -s "$OPENAI_API_ENDPOINT" \
     -H "Content-Type: application/json" \
