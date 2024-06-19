@@ -2,6 +2,8 @@
 
 # 设置你的 OpenAI API 密钥
 OPENAI_API_KEY="your_openai_api_key_here"
+# 设置你的 OpenAI API endpoint
+OPENAI_API_ENDPOINT="https://api.openai.com/v1/chat/completions"
 # 设置你的 Proxy，默认使用HTTPS_PROXY环境变量
 CURL_PROXY=""
 
@@ -41,7 +43,7 @@ generate_commit_message() {
         ],
         max_tokens: 100,
         temperature: 0.7
-    }' | curl $CURL_PROXY_OPT --connect-timeout 5 -s https://api.openai.com/v1/chat/completions \
+    }' | curl $CURL_PROXY_OPT --connect-timeout 5 -s "$OPENAI_API_ENDPOINT" \
     -H "Content-Type: application/json" \
     -H "Authorization: Bearer $OPENAI_API_KEY" \
     -d @-)
