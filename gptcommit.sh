@@ -33,7 +33,7 @@ done
 
 # Check for user confirmation
 if [ ! -f "$CONFIRMATION_FILE" ]; then
-    echo -e "${RED}Warning: This tool will transmit your code to a large language model (LLM), which may result in information leakage. Do you agree to this? (type YES to confirm)${NC}"
+    echo -e "${RED}Warning: This tool sends your code to an LLM, which may cause information leakage. Type YES to agree and not be prompted again.${NC}"
     read USER_CONFIRMATION
     if [ "$USER_CONFIRMATION" != "YES" ]; then
         echo "You did not confirm. Exiting."
