@@ -29,9 +29,9 @@ GPTCommit 是一个自动化的 Git 提交工具。它使用 OpenAI 的 GPT-4o �
 
 在运行脚本之前，你需要进行一些配置。
 
-1. 打开 `auto_commit.sh` 文件：
+1. 打开 `gptcommit.sh` 文件：
     ```bash
-    nano auto_commit.sh
+    nano gptcommit.sh
     ```
 
 2. 将以下行中的 `your_openai_api_key_here` 替换为你的 OpenAI API 密钥：
@@ -56,7 +56,7 @@ GPTCommit 是一个自动化的 Git 提交工具。它使用 OpenAI 的 GPT-4o �
 
 2. 运行脚本：
     ```bash
-    ./auto_commit.sh
+    ./gptcommit.sh
     ```
 
 3. 脚本将自动执行以下步骤：
@@ -71,7 +71,7 @@ GPTCommit 是一个自动化的 Git 提交工具。它使用 OpenAI 的 GPT-4o �
 
 1. 将脚本复制到一个在 PATH 中的目录，例如 `/usr/local/bin`：
     ```bash
-    sudo cp auto_commit.sh /usr/local/bin/gptcommit
+    sudo cp gptcommit.sh /usr/local/bin/gptcommit
     sudo chmod +x /usr/local/bin/gptcommit
     ```
 
