@@ -13,16 +13,19 @@ GPTCommit is an automated Git commit tool. It leverages OpenAI's GPT-4o model to
 ## Installation
 
 1. Clone this repository to your local machine:
+
     ```bash
     git clone https://github.com/zhufengme/GPTCommit
     ```
 
 2. Navigate to the project directory:
+
     ```bash
     cd GPTCommit
     ```
 
 3. Ensure you have `jq` installed to handle JSON data. If not, you can install it using the following command:
+
     ```bash
     sudo apt-get install jq
     ```
@@ -32,30 +35,37 @@ GPTCommit is an automated Git commit tool. It leverages OpenAI's GPT-4o model to
 Before running the script, you need to configure a few things.
 
 1. Open the `gptcommit.sh` file:
+
     ```bash
     nano gptcommit.sh
     ```
 
 2. Replace `your_openai_api_key_here` in the following line with your OpenAI API key:
+
     ```bash
     OPENAI_API_KEY="your_openai_api_key_here"
     ```
 
 3. [Optional] Set the proxy you want to use. Leave it empty to follow curl's default behavior (using the HTTPS_PROXY environment variable or settings in .curlrc):
+
     ```bash
     CURL_PROXY=""
     ```
 
 4. [Optional] If you need to modify the OpenAI API endpoint, you can edit the following line:
+
     ```bash
     OPENAI_API_ENDPOINT="https://api.openai.com/v1/chat/completions"
     ```
+
     You can change it to a different API endpoint as needed.
 
 5. [Optional] The default commit message is generated in English. You can edit the following line to change the default language:
+
     ```bash
     LANGUAGES="en"
     ```
+
     You can change it to a different language, such as `zh` for Chinese.
 
 ## Usage
@@ -63,6 +73,7 @@ Before running the script, you need to configure a few things.
 1. Ensure there are uncommitted changes in your Git working directory.
 
 2. Run the script:
+
     ```bash
     ./gptcommit.sh
     ```
@@ -75,29 +86,51 @@ Before running the script, you need to configure a few things.
 
 ## Optional Command Line Parameters
 
-An optional command line parameter `--lang` is provided to temporarily specify the language of the generated commit message. For example:
+The script supports two optional command line parameters:
+
+1. `--lang`: Temporarily specify the language(s) of the generated commit message. For example:
+
+   ```bash
+   ./gptcommit.sh --lang=zh
+   ```
+
+   This command generates the commit message in Chinese.
+
+   ```bash
+   ./gptcommit.sh --lang=zh,en
+   ```
+
+   This command generates the commit message in both Chinese and English.
+
+2. `--notes`: Add extra notes or instructions for the commit message generation. For example:
+
+   ```bash
+   ./gptcommit.sh --notes="Focus on performance improvements"
+   ```
+
+   This command will instruct the AI to pay special attention to performance-related changes when generating the commit message.
+
+You can use these parameters together:
 
 ```bash
-./gptcommit.sh --lang=zh
+./gptcommit.sh --lang=zh,en --notes="Highlight security updates"
 ```
-This command generates the commit message in Chinese.
 
-```bash
-./gptcommit.sh --lang=zh,en
-```
-This command generates the commit message in both Chinese and English.
+This command will generate a commit message in both Chinese and English, with a focus on security-related changes.
 
 ## Adding the Script to PATH
 
 To conveniently use the script from any directory, you can add it to the system PATH:
 
 1. Copy the script to a directory in your PATH, such as `/usr/local/bin`:
+
     ```bash
     sudo cp gptcommit.sh /usr/local/bin/gptcommit
     sudo chmod +x /usr/local/bin/gptcommit
     ```
 
 2. Now you can use the script in any Git repository directory by running:
+
     ```bash
     gptcommit
     ```

@@ -11,16 +11,19 @@ GPTCommit 是一个自动化的 Git 提交工具。它使用 OpenAI 的 GPT-4o �
 ## 安装
 
 1. 克隆本仓库到你的本地机器：
+
     ```bash
     git clone https://github.com/zhufengme/GPTCommit
     ```
 
 2. 进入项目目录：
+
     ```bash
     cd GPTCommit
     ```
 
 3. 确保你已安装 `jq`，用于处理 JSON 数据。如果没有安装，可以使用以下命令安装：
+
     ```bash
     sudo apt-get install jq
     ```
@@ -30,38 +33,45 @@ GPTCommit 是一个自动化的 Git 提交工具。它使用 OpenAI 的 GPT-4o �
 在运行脚本之前，你需要进行一些配置。
 
 1. 打开 `gptcommit.sh` 文件：
+
     ```bash
     nano gptcommit.sh
     ```
 
 2. 将以下行中的 `your_openai_api_key_here` 替换为你的 OpenAI API 密钥：
+
     ```bash
     OPENAI_API_KEY="your_openai_api_key_here"
     ```
 
 3. [可选] 设置你要使用的代理（proxy），留空则遵循 curl 的默认行为（使用 HTTPS_PROXY 环境变量或 .curlrc 中的设置）：
+
     ```bash
     CURL_PROXY=""
     ```
 
 4. [可选] 如果需要修改 OpenAI API endpoint，可以编辑以下行：
+
     ```bash
     OPENAI_API_ENDPOINT="https://api.openai.com/v1/chat/completions"
     ```
+
     你可以根据需要将其更改为不同的 API endpoint。
 
 5. [可选] 默认生成的提交注释是英文，可以编辑以下行来修改默认语言：
+
     ```bash
     LANGUAGES="en"
     ```
-    你可以根据需要将其更改为不同的语言，如zh为中文。
 
+    你可以根据需要将其更改为不同的语言，如zh为中文。
 
 ## 使用
 
 1. 确保你的 Git 工作目录中有未提交的更改。
 
 2. 运行脚本：
+
     ```bash
     ./gptcommit.sh
     ```
@@ -72,31 +82,53 @@ GPTCommit 是一个自动化的 Git 提交工具。它使用 OpenAI 的 GPT-4o �
     - 调用 OpenAI 的 API 生成提交注释
     - 添加更改到暂存区并提交
 
-## 可选的命令行参数
+## 可选命令行参数
 
-提供一个可选的命令行参数 `--lang`，以临时指定生成的提交注释的语言，如  
+该脚本支持两个可选的命令行参数：
+
+1. `--lang`：临时指定生成的提交注释的语言。例如：
+
+   ```bash
+   ./gptcommit.sh --lang=zh
+   ```
+
+   该命令生成中文的提交注释。
+
+   ```bash
+   ./gptcommit.sh --lang=zh,en
+   ```
+
+   该命令生成中英文的提交注释。
+
+2. `--notes`：为提交注释生成添加额外的说明。例如：
+
+   ```bash
+   ./gptcommit.sh --notes="Focus on performance improvements"
+   ```
+
+   该命令将指示AI在生成提交注释时特别关注与性能相关的更改。
+
+你可以一起使用这些参数：
 
 ```bash
-./gptcommit.sh --lang=zh
-```  
-则代表使用中文生成提交注释
-
-```bash
-./gptcommit.sh --lang=zh,en
+./gptcommit.sh --lang=zh,en --notes="Highlight security updates"
 ```
-则代表使用中文、英语双语生成注释
+
+该命令将生成中英文的提交注释，并重点关注与安全相关的更改。
 
 ## 将脚本添加到 PATH
 
 为了在任何目录中都能方便地使用该脚本，你可以将脚本添加到系统的 PATH 路径中：
 
 1. 将脚本复制到一个在 PATH 中的目录，例如 `/usr/local/bin`：
+
     ```bash
     sudo cp gptcommit.sh /usr/local/bin/gptcommit
     sudo chmod +x /usr/local/bin/gptcommit
     ```
 
 2. 现在你可以在任何 Git 仓库目录中通过运行以下命令来使用脚本：
+
     ```bash
     gptcommit
     ```
