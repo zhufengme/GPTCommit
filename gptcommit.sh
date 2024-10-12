@@ -15,6 +15,8 @@ fi
 
 # Default language for commit message
 LANGUAGES="en"
+# Default extra notes
+EXTRA_NOTES=""
 # File to store user confirmation
 CONFIRMATION_FILE="$HOME/.gptcommit_confirmed"
 
@@ -26,6 +28,7 @@ NC='\033[0m' # No Color
 while [[ "$#" -gt 0 ]]; do
     case $1 in
         --lang=*) LANGUAGES="${1#*=}";;
+        --notes=*) EXTRA_NOTES="${1#*=}";;
         *) echo "Unknown parameter passed: $1"; exit 1;;
     esac
     shift
@@ -64,12 +67,13 @@ fi
 # Call OpenAI's API to generate a commit message
 generate_commit_message() {
     local LANGUAGES=$1
-    RESPONSE=$(jq -n --arg diff "$DIFF" --arg lang "$LANGUAGES" '{
+    local NOTES=$2
+    RESPONSE=$(jq -n --arg diff "$DIFF" --arg lang "$LANGUAGES" --arg notes "$NOTES" '{
         model: "gpt-4o",
         messages: [
             {
                 role: "user",
-                content: "Analyze the following code changes and generate a concise Git commit message, providing it in the following languages: \($lang). Text only: \n\n\($diff)\n\n"
+                content: "Analyze the following code changes and generate a concise Git commit message, providing it in the following languages: \($lang). Text only: \n\n\($diff)\n\n \($notes) \n\n"
             }
         ],
         max_tokens: 500,
@@ -93,7 +97,7 @@ generate_commit_message() {
 }
 
 # Get the generated commit message
-COMMIT_MESSAGE=$(generate_commit_message "$LANGUAGES")
+COMMIT_MESSAGE=$(generate_commit_message "$LANGUAGES" "$EXTRA_NOTES")
 
 # If no commit message is generated, exit
 if [ -z "$COMMIT_MESSAGE" ]; then
